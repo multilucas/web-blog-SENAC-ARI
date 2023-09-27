@@ -23,5 +23,32 @@ class PostController extends Controller
             ]);
         return redirect()->route('posts.index');
     }
+
+    public function edit($id) {
+        $post = Post::findOrFail($id);
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Request $request, $id) {
+        $post = Post::findOrFail($id);
+
+        $post->update([
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+            ]);
+
+        return redirect(route('posts.index'));
+    }
+
+    public function destroy($id){
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect(route('posts.index'));
+    }
+
+    public function show($id) {
+        $post = Post::findOrFail($id);
+        return view('posts.show', compact('post'));
+    }
     
 }
